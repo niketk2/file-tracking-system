@@ -1,0 +1,341 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.swing.JToolBar;
+import java.awt.Color;
+import javax.swing.JMenu;
+import java.awt.FlowLayout;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import javax.swing.JSplitPane;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
+import javax.swing.JSeparator;
+import javax.swing.JEditorPane;
+import javax.swing.JLabel;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
+import Connection.ConnectionManager;
+import net.proteanit.sql.DbUtils;
+
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import java.awt.SystemColor;
+import javax.swing.JTextArea;
+
+public class Admin {
+	private static Connection conn=ConnectionManager.getInstance().getConnection();
+	private JFrame frmFileTrackingSystem;
+	private JTextField filename;
+	private JTextField barcode;
+	private JTable table;
+	private JTextField filesearch;
+    private JTextArea comment;
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Admin window = new Admin();
+					window.frmFileTrackingSystem.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Admin() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frmFileTrackingSystem = new JFrame();
+		frmFileTrackingSystem.getContentPane().setBackground(new Color(255, 255, 255));
+		frmFileTrackingSystem.setTitle("FILE TRACKING SYSTEM");
+		frmFileTrackingSystem.setBounds(100, 100, 1129, 711);
+		frmFileTrackingSystem.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmFileTrackingSystem.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frmFileTrackingSystem.getContentPane().setLayout(null);
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setForeground(new Color(255, 255, 255));
+		menuBar.setBackground(new Color(0, 0, 51));
+		menuBar.setBounds(3, 0, 1414, 58);
+		frmFileTrackingSystem.getContentPane().add(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("FILE MENU");
+		mnNewMenu.setForeground(new Color(255, 255, 255));
+		mnNewMenu.setBackground(new Color(204, 204, 255));
+		mnNewMenu.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		mnNewMenu.setIcon(new ImageIcon(Admin.class.getResource("/img/document-archive-icon.png")));
+		menuBar.add(mnNewMenu);
+		
+		JSplitPane splitPane = new JSplitPane();
+		mnNewMenu.add(splitPane);
+		
+		JButton btnNewButton = new JButton("ADD NEW DOCUMENT");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				
+			}
+		});
+		btnNewButton.setIcon(new ImageIcon(Admin.class.getResource("/img/add_files_to_archive.png")));
+		splitPane.setLeftComponent(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("RECEIVED FILE");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
+		btnNewButton_1.setIcon(new ImageIcon(Admin.class.getResource("/img/Folders-icon.png")));
+		splitPane.setRightComponent(btnNewButton_1);
+		
+		JMenu mnAddDepartment = new JMenu("DEPARTMENT MENU");
+		mnAddDepartment.setForeground(new Color(255, 255, 255));
+		mnAddDepartment.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		mnAddDepartment.setIcon(new ImageIcon(Admin.class.getResource("/img/Professor-icon.png")));
+		menuBar.add(mnAddDepartment);
+		
+		JButton btnNewButton_2 = new JButton("ADD DEPARTMENT");
+		btnNewButton_2.setIcon(new ImageIcon(Admin.class.getResource("/img/network_add.png")));
+		btnNewButton_2.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		mnAddDepartment.add(btnNewButton_2);
+		
+		JMenu mnNewMenu_1 = new JMenu("ACCOUNT MENU");
+		mnNewMenu_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		mnNewMenu_1.setIcon(new ImageIcon(Admin.class.getResource("/img/Actions-list-add-user-icon.png")));
+		mnNewMenu_1.setForeground(SystemColor.text);
+		menuBar.add(mnNewMenu_1);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel.setBackground(new Color(255, 255, 255));
+		panel.setBounds(3, 59, 1351, 71);
+		frmFileTrackingSystem.getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JToolBar toolBar = new JToolBar();
+		toolBar.setBounds(10, 11, 1348, 60);
+		panel.add(toolBar);
+		toolBar.setBackground(new Color(255, 255, 255));
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(SystemColor.menu);
+		panel_2.setBounds(13, 141, 378, 553);
+		frmFileTrackingSystem.getContentPane().add(panel_2);
+		panel_2.setLayout(null);
+		
+		JLabel lblNewLabel_4 = new JLabel("FILE NAME");
+		lblNewLabel_4.setBounds(19, 31, 78, 28);
+		panel_2.add(lblNewLabel_4);
+		
+		JLabel lblNewLabel_5 = new JLabel("BARCODE");
+		lblNewLabel_5.setBounds(19, 90, 97, 36);
+		panel_2.add(lblNewLabel_5);
+		
+		JLabel lblNewLabel_6 = new JLabel("COMMENT");
+		lblNewLabel_6.setBounds(19, 161, 78, 36);
+		panel_2.add(lblNewLabel_6);
+		
+		filename = new JTextField();
+		filename.setBounds(140, 31, 223, 36);
+		panel_2.add(filename);
+		filename.setFont(new Font("Tahoma", Font.BOLD, 18));
+		filename.setColumns(10);
+		
+		barcode = new JTextField();
+		barcode.setBounds(140, 90, 223, 36);
+		panel_2.add(barcode);
+		barcode.setFont(new Font("Tahoma", Font.BOLD, 18));
+		barcode.setColumns(10);
+		
+		JButton btnNewButton_3 = new JButton("INSERT");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String bcode=barcode.getText();
+				String fname=filename.getText();
+				String cmt=comment.getText();
+				ManagerFile f=new ManagerFile(bcode, fname, cmt);
+				if (f.insertfile()==true) {
+					barcode.setText(null);
+					filename.setText(null);
+					comment.setText(null);
+					String sql="select *from file";
+					
+					ResultSet rs=null;
+				      
+				      try(
+				     		// Connection conn=Connector.getconnection(DBtype.MYSQL);
+				     		   PreparedStatement stmt=conn.prepareStatement(sql);
+				     		 ){
+				      	
+				      	rs=stmt.executeQuery();
+				      	table.setModel(DbUtils.resultSetToTableModel(rs));
+				      } catch (SQLException e) {
+						// TODO Auto-generated catch block
+						System.err.println(e.getMessage());
+						
+						
+					}
+				}
+				}
+		});
+		btnNewButton_3.setIcon(new ImageIcon(Admin.class.getResource("/img/Folder-New-icon.png")));
+		btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnNewButton_3.setBounds(10, 317, 120, 36);
+		panel_2.add(btnNewButton_3);
+		
+		JButton btnNewButton_4 = new JButton("UPDATE");
+		btnNewButton_4.setIcon(new ImageIcon(Admin.class.getResource("/img/update.png")));
+		btnNewButton_4.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton_4.setBounds(131, 318, 120, 36);
+		panel_2.add(btnNewButton_4);
+		
+		JButton btnNewButton_5 = new JButton("DELETE");
+		btnNewButton_5.setIcon(new ImageIcon(Admin.class.getResource("/img/edit-delete-icon.png")));
+		btnNewButton_5.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton_5.setBounds(251, 318, 117, 36);
+		panel_2.add(btnNewButton_5);
+		
+		comment = new JTextArea();
+		comment.setBounds(140, 167, 228, 120);
+		panel_2.add(comment);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+			}
+		});
+		scrollPane.setBackground(Color.WHITE);
+		scrollPane.setBounds(397, 204, 632, 490);
+		frmFileTrackingSystem.getContentPane().add(scrollPane);
+		
+		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				DefaultTableModel model=(DefaultTableModel)table.getModel();
+				int selectedRowIndex=table.getSelectedRow();
+				barcode.setText(model.getValueAt(selectedRowIndex, 0).toString());
+				filename.setText(model.getValueAt(selectedRowIndex,1).toString());
+			   comment.setText(model.getValueAt(selectedRowIndex, 2).toString());
+			}
+		});
+		table.setBackground(new Color(255, 255, 255));
+		scrollPane.setViewportView(table);
+		//Insert the data from file to the table
+		String sql="select *from file";
+				
+		ResultSet rs=null;
+	      
+	      try(
+	     		
+	     		   PreparedStatement stmt=conn.prepareStatement(sql);
+	     		 ){
+	      	
+	      	rs=stmt.executeQuery();
+	      	table.setModel(DbUtils.resultSetToTableModel(rs));
+	      } catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.err.println(e.getMessage());
+			
+			
+		}
+		//insertin complete
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(SystemColor.menu);
+		panel_1.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, new Color(102, 102, 0), null, null, null), "USER", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(153, 51, 0)));
+		panel_1.setBounds(1029, 141, 315, 553);
+		frmFileTrackingSystem.getContentPane().add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("USERNAME");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel.setBounds(23, 30, 106, 19);
+		panel_1.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setBounds(196, 30, 46, 14);
+		panel_1.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("DEPARTMENT");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_2.setBounds(23, 68, 106, 19);
+		panel_1.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setBounds(196, 68, 46, 14);
+		panel_1.add(lblNewLabel_3);
+		
+		JLabel lblRole = new JLabel("AUTHORITY");
+		lblRole.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblRole.setBounds(23, 120, 106, 19);
+		panel_1.add(lblRole);
+		
+		JLabel label_1 = new JLabel("");
+		label_1.setBounds(196, 120, 46, 14);
+		panel_1.add(label_1);
+		
+		JButton btnNewButton_6 = new JButton("LOGOUT");
+		btnNewButton_6.setForeground(new Color(240, 255, 240));
+		btnNewButton_6.setBackground(new Color(255, 0, 0));
+		btnNewButton_6.setIcon(new ImageIcon(Admin.class.getResource("/img/Logout-icon.png")));
+		btnNewButton_6.setFont(new Font("Adobe Garamond Pro Bold", Font.BOLD, 25));
+		btnNewButton_6.setBounds(53, 210, 213, 36);
+		panel_1.add(btnNewButton_6);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 198, 295, 62);
+		panel_1.add(separator);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_3.setBounds(397, 141, 632, 58);
+		frmFileTrackingSystem.getContentPane().add(panel_3);
+		panel_3.setLayout(null);
+		
+		filesearch = new JTextField();
+		filesearch.setBounds(56, 11, 325, 42);
+		panel_3.add(filesearch);
+		filesearch.setFont(new Font("Tahoma", Font.BOLD, 16));
+		filesearch.setColumns(10);
+		
+		JButton btnNewButton_7 = new JButton("SEARCH");
+		btnNewButton_7.setBounds(423, 11, 128, 42);
+		panel_3.add(btnNewButton_7);
+		btnNewButton_7.setFont(new Font("Tahoma", Font.BOLD, 16));
+		
+	}
+}

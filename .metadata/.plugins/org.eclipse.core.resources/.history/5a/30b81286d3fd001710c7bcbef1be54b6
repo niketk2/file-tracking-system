@@ -1,0 +1,187 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
+
+import Connection.ConnectionManager;
+import net.proteanit.sql.DbUtils;
+
+import java.awt.Color;
+import java.awt.CardLayout;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.SwingConstants;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Report {
+	private static Connection conn=ConnectionManager.getInstance().getConnection();
+	private JFrame frame;
+	private JButton report;
+	private JButton view;
+	private JPanel panel_1;
+	private JPanel panel_3;
+	private JPanel panel_2;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Report window = new Report();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Report() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 1062, 553);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 51, 204), 2));
+		panel.setBounds(10, 0, 209, 503);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		report = new JButton("REPORT");
+		report.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				panel_1.removeAll();
+				panel_1.repaint();
+				panel_1.revalidate();
+				panel_1.add(panel_3);
+				
+			}
+		});
+		report.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		report.setBounds(10, 11, 189, 76);
+		panel.add(report);
+		
+		JButton button_1 = new JButton("REPORT");
+		button_1.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		button_1.setBounds(10, 206, 189, 76);
+		panel.add(button_1);
+		
+		JButton button_2 = new JButton("REPORT");
+		button_2.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		button_2.setBounds(10, 307, 189, 76);
+		panel.add(button_2);
+		
+		JButton button_3 = new JButton("REPORT");
+		button_3.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		button_3.setBounds(10, 405, 189, 76);
+		panel.add(button_3);
+		
+		view = new JButton("VIEW ALL MOVEMENT");
+		view.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				panel_1.removeAll();
+				panel_1.repaint();
+				panel_1.revalidate();
+				panel_1.add(panel_2);
+			}
+		});
+		view.setFont(new Font("Tahoma", Font.BOLD, 15));
+		view.setBounds(10, 109, 189, 76);
+		panel.add(view);
+		
+		panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(new Color(0, 51, 204)));
+		panel_1.setBounds(219, 0, 827, 503);
+		frame.getContentPane().add(panel_1);
+		panel_1.setLayout(new CardLayout(0, 0));
+		
+		panel_3 = new JPanel();
+		panel_3.setBackground(Color.WHITE);
+		panel_1.add(panel_3, "name_38811361105475");
+		panel_3.setLayout(null);
+		
+		JLabel lblMonthlyReport = new JLabel("Monthly report");
+		lblMonthlyReport.setFont(new Font("Times New Roman", Font.BOLD, 45));
+		lblMonthlyReport.setBounds(169, 30, 329, 53);
+		panel_3.add(lblMonthlyReport);
+		
+		JLabel lblNewLabel = new JLabel("FROM");
+		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 25));
+		lblNewLabel.setBounds(26, 141, 85, 40);
+		panel_3.add(lblNewLabel);
+		
+		JLabel lblTo = new JLabel("TO");
+		lblTo.setFont(new Font("Times New Roman", Font.BOLD, 25));
+		lblTo.setBounds(395, 141, 35, 40);
+		panel_3.add(lblTo);
+		
+		JFormattedTextField formattedTextField = new JFormattedTextField();
+		formattedTextField.setBounds(142, 141, 172, 31);
+		panel_3.add(formattedTextField);
+		
+		JFormattedTextField formattedTextField_1 = new JFormattedTextField();
+		formattedTextField_1.setBounds(456, 141, 172, 31);
+		panel_3.add(formattedTextField_1);
+		
+		panel_2 = new JPanel();
+		panel_2.setBackground(Color.WHITE);
+		panel_1.add(panel_2, "name_38746297672064");
+		panel_2.setLayout(null);
+		
+		JLabel lblNewLabel_1 = new JLabel("File movement");
+		lblNewLabel_1.setFont(new Font("Tekton Pro", Font.BOLD, 20));
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setBounds(206, 26, 259, 38);
+		panel_2.add(lblNewLabel_1);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 86, 807, 406);
+		panel_2.add(scrollPane);
+		
+		JTable table = new JTable();
+		scrollPane.setViewportView(table);
+		//add item to the table
+        String sql="select *from fileoperation";
+		
+		ResultSet rs=null;
+	      
+	      try(
+	     		
+	     		   PreparedStatement stmt=conn.prepareStatement(sql);
+	     		 ){
+	      	//stmt.setString(1, StaffManager.getOffice());
+	      	rs=stmt.executeQuery();
+	      	table.setModel(DbUtils.resultSetToTableModel(rs));
+	      } catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.err.println(e.getMessage());
+			
+			
+		} 
+	}
+}

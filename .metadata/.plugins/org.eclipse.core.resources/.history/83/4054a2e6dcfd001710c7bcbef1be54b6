@@ -1,0 +1,234 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
+
+import Connection.ConnectionManager;
+import net.proteanit.sql.DbUtils;
+
+import java.awt.Color;
+import java.awt.CardLayout;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.SwingConstants;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+import javax.swing.JMenuBar;
+import javax.swing.JToolBar;
+import javax.swing.border.BevelBorder;
+
+public class Report {
+	private static Connection conn=ConnectionManager.getInstance().getConnection();
+	private JFrame frame;
+	private JButton report;
+	private JButton view;
+	private JPanel panel_1;
+	private JPanel panel_3;
+	private JPanel panel_2;
+	private JButton btnprint;
+	private JTable table_1;
+	private JTable table_2;
+	private JScrollPane scrollPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Report window = new Report();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Report() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 1062, 553);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 51, 204), 2));
+		panel.setBounds(10, 92, 209, 613);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		report = new JButton("FILE REPORT");
+		report.setBackground(new Color(255, 51, 102));
+		report.setForeground(Color.WHITE);
+		report.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				panel_1.removeAll();
+				panel_1.repaint();
+				panel_1.revalidate();
+				panel_1.add(panel_3);
+				
+			}
+		});
+		report.setFont(new Font("Tahoma", Font.BOLD, 20));
+		report.setBounds(10, 11, 189, 76);
+		panel.add(report);
+		
+		JButton btnLogFiles = new JButton("LOG FILES");
+		btnLogFiles.setBackground(new Color(255, 51, 102));
+		btnLogFiles.setForeground(Color.WHITE);
+		btnLogFiles.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnLogFiles.setBounds(10, 206, 189, 76);
+		panel.add(btnLogFiles);
+		
+		view = new JButton("USER REPORT");
+		view.setBackground(new Color(255, 51, 102));
+		view.setForeground(Color.WHITE);
+		view.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				panel_1.removeAll();
+				panel_1.repaint();
+				panel_1.revalidate();
+				panel_1.add(panel_2);
+			}
+		});
+		view.setFont(new Font("Tahoma", Font.BOLD, 20));
+		view.setBounds(10, 109, 189, 76);
+		panel.add(view);
+		
+		panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(new Color(0, 51, 204)));
+		panel_1.setBounds(219, 92, 1135, 613);
+		frame.getContentPane().add(panel_1);
+		panel_1.setLayout(new CardLayout(0, 0));
+		
+		panel_3 = new JPanel();
+		panel_3.setBackground(Color.WHITE);
+		panel_1.add(panel_3, "name_38811361105475");
+		panel_3.setLayout(null);
+		
+		JLabel lblMonthlyReport = new JLabel("Monthly report");
+		lblMonthlyReport.setFont(new Font("Times New Roman", Font.BOLD, 45));
+		lblMonthlyReport.setBounds(356, 41, 329, 53);
+		panel_3.add(lblMonthlyReport);
+		
+		JLabel lblNewLabel = new JLabel("FROM");
+		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 25));
+		lblNewLabel.setBounds(427, 137, 85, 40);
+		panel_3.add(lblNewLabel);
+		
+		JLabel lblTo = new JLabel("TO");
+		lblTo.setFont(new Font("Times New Roman", Font.BOLD, 25));
+		lblTo.setBounds(819, 137, 35, 40);
+		panel_3.add(lblTo);
+		
+		JFormattedTextField formattedTextField = new JFormattedTextField();
+		formattedTextField.setBounds(571, 137, 172, 31);
+		panel_3.add(formattedTextField);
+		
+		JFormattedTextField formattedTextField_1 = new JFormattedTextField();
+		formattedTextField_1.setBounds(901, 137, 172, 31);
+		panel_3.add(formattedTextField_1);
+		
+		JLabel lblSelecetFile = new JLabel("SELECET FILE");
+		lblSelecetFile.setFont(new Font("Times New Roman", Font.BOLD, 25));
+		lblSelecetFile.setBounds(10, 137, 190, 40);
+		panel_3.add(lblSelecetFile);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(210, 137, 207, 31);
+		panel_3.add(comboBox);
+		
+		btnprint = new JButton("PRINT");
+		btnprint.setForeground(Color.WHITE);
+		btnprint.setBackground(new Color(255, 51, 51));
+		btnprint.setBounds(45, 577, 111, 23);
+		panel_3.add(btnprint);
+		
+		JButton btnview = new JButton("VIEW IN PDF");
+		btnview.setBackground(new Color(255, 51, 102));
+		btnview.setForeground(Color.WHITE);
+		btnview.setBounds(195, 577, 117, 23);
+		panel_3.add(btnview);
+		
+		table_1 = new JTable();
+		table_1.setBounds(249, 280, 1, 1);
+		panel_3.add(table_1);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBackground(new Color(0, 0, 128));
+		scrollPane_1.setBounds(20, 188, 1041, 378);
+		panel_3.add(scrollPane_1);
+		
+		table_2 = new JTable();
+		scrollPane_1.setViewportView(table_2);
+		
+		panel_2 = new JPanel();
+		panel_2.setBackground(Color.WHITE);
+		panel_1.add(panel_2, "name_38746297672064");
+		panel_2.setLayout(null);
+		
+		JLabel lblNewLabel_1 = new JLabel("ALL USER OF THE SYSTEM");
+		lblNewLabel_1.setForeground(new Color(255, 140, 0));
+		lblNewLabel_1.setFont(new Font("Tekton Pro", Font.BOLD, 20));
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setBounds(524, 28, 259, 38);
+		panel_2.add(lblNewLabel_1);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setViewportBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		scrollPane.setBackground(Color.white);
+		scrollPane.setBounds(10, 86, 1113, 406);
+		panel_2.add(scrollPane);
+		
+		JTable table = new JTable();
+		table.setSelectionForeground(new Color(240, 255, 255));
+		table.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		scrollPane.setViewportView(table);
+		//add item to the table
+        String sql="select *from allstaff";
+		
+		ResultSet rs=null;
+	      
+	      try(
+	     		
+	     		   PreparedStatement stmt=conn.prepareStatement(sql);
+	     		 ){
+	      	//stmt.setString(1, StaffManager.getOffice());
+	      	rs=stmt.executeQuery();
+	      	table.setModel(DbUtils.resultSetToTableModel(rs));
+	      	
+	      	JToolBar toolBar = new JToolBar();
+	      	toolBar.setBackground(new Color(0, 0, 102));
+	      	toolBar.setBounds(0, 0, 1354, 92);
+	      	frame.getContentPane().add(toolBar);
+	      } catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.err.println(e.getMessage());
+			
+			
+		} 
+	}
+}

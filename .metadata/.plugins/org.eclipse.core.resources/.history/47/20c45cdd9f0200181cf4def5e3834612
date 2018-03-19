@@ -1,0 +1,142 @@
+
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+import javax.swing.JMenuBar;
+import java.awt.Color;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import java.awt.CardLayout;
+import javax.swing.JProgressBar;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.BevelBorder;
+
+public class Home {
+
+	public JFrame frame;
+	private JTextField textField;
+	private JMenuBar menuBar;
+	private JMenuItem menuItem;
+	private JPanel defaultpanel;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Home window = new Home();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Home() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.getContentPane().setLayout(null);
+		
+		textField = new JTextField();
+		textField.setBounds(218, 80, 583, 52);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblBrowserFromInternet = new JLabel("BROWSER FROM INTERNET");
+		lblBrowserFromInternet.setIcon(new ImageIcon(Home.class.getResource("/images/Search-Folder-icon.png")));
+		lblBrowserFromInternet.setBounds(811, 75, 295, 58);
+		lblBrowserFromInternet.setForeground(new Color(0, 128, 128));
+		lblBrowserFromInternet.setFont(new Font("Tahoma", Font.BOLD, 16));
+		frame.getContentPane().add(lblBrowserFromInternet);
+		
+		menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 1348, 58);
+		menuBar.setForeground(Color.WHITE);
+		menuBar.setBackground(new Color(0, 0, 51));
+		frame.getContentPane().add(menuBar);
+		
+		menuItem = new JMenuItem("FILE");
+		menuItem.setBackground(new Color(102, 255, 204));
+		menuBar.add(menuItem);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 51, 102), null, null, new Color(255, 153, 102)));
+		panel_1.setBounds(-6, 134, 276, 567);
+		frame.getContentPane().add(panel_1);
+		panel_1.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(6, 16, 264, 544);
+		panel_1.add(panel);
+		panel.setLayout(null);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.setIcon(new ImageIcon(Home.class.getResource("/images/AU.jpg")));
+		btnNewButton.setBounds(38, 47, 183, 112);
+		panel.add(btnNewButton);
+		
+		JButton button = new JButton("New button");
+		button.setIcon(new ImageIcon(Home.class.getResource("/images/VIDEO.png")));
+		button.setBounds(38, 170, 183, 113);
+		panel.add(button);
+		
+		JButton button_1 = new JButton("New button");
+		button_1.setIcon(new ImageIcon(Home.class.getResource("/images/IMG.png")));
+		button_1.setBounds(38, 294, 183, 126);
+		panel.add(button_1);
+		
+		JButton button_2 = new JButton("New button");
+		button_2.setIcon(new ImageIcon(Home.class.getResource("/images/ANI.jpg")));
+		button_2.setBounds(38, 431, 183, 113);
+		panel.add(button_2);
+		
+		JLabel lblNewLabel = new JLabel("MY LIBRARY");
+		lblNewLabel.setForeground(new Color(204, 51, 0));
+		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+		lblNewLabel.setBounds(10, 11, 232, 25);
+		panel.add(lblNewLabel);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(274, 150, 957, 544);
+		frame.getContentPane().add(panel_2);
+		panel_2.setLayout(null);
+		
+		defaultpanel = new JPanel();
+		defaultpanel.setBounds(478, 5, 1, 1);
+		panel_2.add(defaultpanel);
+		defaultpanel.setBackground(Color.WHITE);
+		defaultpanel.setLayout(null);
+		
+		JProgressBar progressBar = new JProgressBar();
+		progressBar.setBounds(128, 464, 736, 30);
+		panel_2.add(progressBar);
+		
+		JButton btnNewButton_1 = new JButton("Recording");
+		btnNewButton_1.setForeground(new Color(255, 255, 255));
+		btnNewButton_1.setBackground(new Color(255, 51, 0));
+		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnNewButton_1.setBounds(10, 464, 108, 30);
+		panel_2.add(btnNewButton_1);
+	}
+}
